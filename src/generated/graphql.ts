@@ -3674,6 +3674,14 @@ export type GetAllPokemonQueryVariables = Exact<{
 
 export type GetAllPokemonQuery = { __typename?: 'Query', getAllPokemon: Array<{ __typename?: 'Pokemon', species: string, sprite: string, types: Array<{ __typename?: 'PokemonType', name: string }> }> };
 
+export type GetFuzzyPokemonQueryVariables = Exact<{
+  pokemon: Scalars['String'];
+  take?: InputMaybe<Scalars['Int']>;
+}>;
+
+
+export type GetFuzzyPokemonQuery = { __typename?: 'Query', getFuzzyPokemon: Array<{ __typename?: 'Pokemon', species: string, baseSpecies?: string | null, sprite: string, types: Array<{ __typename?: 'PokemonType', name: string }> }> };
+
 export type GetPokemonByNameQueryVariables = Exact<{
   pokemon: PokemonEnum;
 }>;
@@ -3686,6 +3694,18 @@ export const GetAllPokemonDocument = gql`
     query getAllPokemon($offset: Int!, $take: Int!) {
   getAllPokemon(offset: $offset, take: $take) {
     species
+    sprite
+    types {
+      name
+    }
+  }
+}
+    `;
+export const GetFuzzyPokemonDocument = gql`
+    query getFuzzyPokemon($pokemon: String!, $take: Int) {
+  getFuzzyPokemon(pokemon: $pokemon, take: $take) {
+    species
+    baseSpecies
     sprite
     types {
       name
@@ -3735,6 +3755,9 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
   return {
     getAllPokemon(variables: GetAllPokemonQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetAllPokemonQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetAllPokemonQuery>(GetAllPokemonDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getAllPokemon', 'query');
+    },
+    getFuzzyPokemon(variables: GetFuzzyPokemonQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetFuzzyPokemonQuery> {
+      return withWrapper((wrappedRequestHeaders) => client.request<GetFuzzyPokemonQuery>(GetFuzzyPokemonDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getFuzzyPokemon', 'query');
     },
     getPokemonByName(variables: GetPokemonByNameQueryVariables, requestHeaders?: Dom.RequestInit["headers"]): Promise<GetPokemonByNameQuery> {
       return withWrapper((wrappedRequestHeaders) => client.request<GetPokemonByNameQuery>(GetPokemonByNameDocument, variables, {...requestHeaders, ...wrappedRequestHeaders}), 'getPokemonByName', 'query');

@@ -31,7 +31,7 @@ export default function Home() {
       select: (pokemonData) =>
         pokemonData.getAllPokemon.filter(
           (pokemon) =>
-            pokemon.species.toLowerCase().includes(searchValue.toLowerCase()) &&
+            pokemon.species.includes(searchValue.toLowerCase()) &&
             pokemon.types.some((type) =>
               type.name.toLowerCase().includes(selectValue.toLowerCase())
             )

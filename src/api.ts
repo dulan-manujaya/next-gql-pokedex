@@ -3,7 +3,8 @@ import { QueryClient } from "react-query";
 import { getSdk } from "./generated/graphql";
 
 const gqlClient = new GraphQLClient("https://graphqlpokemon.favware.tech/v7");
-export const { getPokemonByName, getAllPokemon } = getSdk(gqlClient);
+export const { getPokemonByName, getAllPokemon, getFuzzyPokemon } =
+  getSdk(gqlClient);
 
 export const queryClient = new QueryClient({
   defaultOptions: {

@@ -77,7 +77,7 @@ export default function WatchList() {
     const selectQuery = selectValue.toLowerCase().trim();
     return items.filter(
       (pokemon) =>
-        pokemon.species.toLowerCase().includes(searchQuery) &&
+        pokemon.species.includes(searchQuery) &&
         pokemon.types.toLowerCase().includes(selectQuery)
     );
   };

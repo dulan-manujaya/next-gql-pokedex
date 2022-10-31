@@ -1,0 +1,10 @@
+query getFuzzyPokemon($pokemon: String!, $take: Int) {
+  getFuzzyPokemon(pokemon: $pokemon, take: $take) {
+    species
+    baseSpecies
+    sprite
+    types {
+      name
+    }
+  }
+}
