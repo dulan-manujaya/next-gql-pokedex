@@ -9,7 +9,7 @@ import { TypesEnum } from "../src/generated/graphql";
 
 export const getServerSideProps = async () => {
   await queryClient.prefetchQuery("pokemon", () =>
-    getAllPokemon({ offset: 87, take: 200 })
+    getAllPokemon({ offset: 87, take: 1327 })
   );
   return {
     props: {
@@ -25,7 +25,7 @@ export default function Home() {
 
   const { data } = useQuery(
     "pokemon",
-    () => getAllPokemon({ offset: 87, take: 200 }),
+    () => getAllPokemon({ offset: 87, take: 1327 }),
     {
       keepPreviousData: true,
       select: (pokemonData) =>
