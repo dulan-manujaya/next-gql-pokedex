@@ -1,0 +1,9 @@
+query getAllPokemon($offset: Int!, $take: Int!) {
+  getAllPokemon(offset: $offset, take: $take) {
+    species
+    sprite
+    types {
+      name
+    }
+  }
+}

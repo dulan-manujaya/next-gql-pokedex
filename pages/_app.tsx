@@ -1,6 +1,21 @@
-import '../styles/globals.css'
-import type { AppProps } from 'next/app'
+import { Hydrate, QueryClientProvider } from "react-query";
+import Layout from "./components/Layout";
+import { queryClient } from "../src/api";
+import { WatchListProvider } from "../context/watchList";
+import "../styles/globals.css";
 
-export default function App({ Component, pageProps }: AppProps) {
-  return <Component {...pageProps} />
+function MyApp({ Component, pageProps }) {
+  return (
+    <WatchListProvider>
+      <QueryClientProvider client={queryClient}>
+        <Hydrate state={pageProps.dehydratedState}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Hydrate>
+      </QueryClientProvider>
+    </WatchListProvider>
+  );
 }
+
+export default MyApp;

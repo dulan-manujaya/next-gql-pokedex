@@ -1,0 +1,30 @@
+query getPokemonByName($pokemon: PokemonEnum!) {
+  getPokemon(pokemon: $pokemon) {
+    num
+    species
+    color
+    sprite
+    types {
+      name
+    }
+    baseStats {
+      attack
+      defense
+      hp
+      speed
+      specialdefense
+      specialattack
+    }
+    gender {
+      female
+      male
+    }
+    flavorTexts {
+      flavor
+      game
+    }
+    levellingRate
+    bulbapediaPage
+    baseSpecies
+  }
+}
