@@ -69,8 +69,8 @@ export default function Home() {
     </tr>
   );
   const rows = paginate(data, activePage, 10).items?.map((element, i) => (
-    <tr key={i}>
-      <Link href={`/pokemon/${element.species}`}>
+    <Link href={`/pokemon/${element.species}`} key={i}>
+      <tr>
         <td>
           <Image
             src={element.sprite}
@@ -82,8 +82,8 @@ export default function Home() {
         </td>
         <td>{element.species}</td>
         <td>{element.types.map((element) => element.name).join(", ")}</td>
-      </Link>
-    </tr>
+      </tr>
+    </Link>
   ));
   return (
     <div>
