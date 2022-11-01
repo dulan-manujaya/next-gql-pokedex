@@ -58,8 +58,13 @@ export default function Home() {
       setSelectValue("");
     } else {
       setSelectValue(value);
+      setPage(1);
     }
   };
+
+  useEffect(() => {
+    setPage(1);
+  }, [selectValue, searchValue]);
 
   const ths = (
     <tr>
@@ -97,7 +102,6 @@ export default function Home() {
             searchable
             clearable
           />
-          ;
         </Grid.Col>
         <Grid.Col span={4}>
           <TextInput
