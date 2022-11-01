@@ -135,7 +135,11 @@ const PokemonDetail: NextPage<{
           <Title order={5}>Bulbapedia Page</Title>
         </Grid.Col>
         <Grid.Col span={8}>
-          <a href={data.getPokemon.bulbapediaPage} target="_blank">
+          <a
+            href={data.getPokemon.bulbapediaPage}
+            target="_blank"
+            rel="noreferrer"
+          >
             <Text sx={{ cursor: "pointer", color: "blue" }}>
               {data.getPokemon.bulbapediaPage}
             </Text>
