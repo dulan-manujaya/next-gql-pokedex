@@ -125,7 +125,7 @@ const PokemonDetail: React.FunctionComponent<{
             <Title order={5}>Base Species</Title>
           </Grid.Col>
           <Grid.Col span={8}>
-            <Link href={`/species/${baseSpecies}`}>
+            <Link href={`/species/${baseSpecies.toLowerCase()}`}>
               <Text>{baseSpecies}</Text>
             </Link>
           </Grid.Col>
