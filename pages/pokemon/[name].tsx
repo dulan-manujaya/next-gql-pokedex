@@ -157,6 +157,9 @@ const PokemonDetail: NextPage<{
         <Grid.Col>
           <Divider my="sm" />
         </Grid.Col>
+        <Grid.Col span={12}>
+          <Title order={3}>Base Stats</Title>
+        </Grid.Col>
         <Grid.Col span={4}>
           <Title order={6}>HP</Title>
         </Grid.Col>
