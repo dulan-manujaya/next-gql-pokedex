@@ -75,10 +75,13 @@ export default function Layout({ children }) {
                   mr="xl"
                 />
               </MediaQuery>
+
               <Pokeball />
-              <Text ml={10} size="md">
-                GraphQL Pokedex
-              </Text>
+              <Link href="/" passHref>
+                <Text ml={10} size="md">
+                  GraphQL Pokedex
+                </Text>
+              </Link>
             </div>
           </Header>
         }
