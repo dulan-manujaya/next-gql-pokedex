@@ -1,6 +1,8 @@
-import { Card, Grid, Image, Text, Title } from "@mantine/core";
+import { Card, Center, Grid, Text, Title } from "@mantine/core";
+import { NextPage } from "next";
 import Link from "next/link";
 import { dehydrate, useQuery } from "react-query";
+import Image from "next/image";
 
 import { queryClient, getFuzzyPokemon } from "../../src/api";
 
@@ -16,7 +18,7 @@ export const getServerSideProps = async ({ params }) => {
   };
 };
 
-const PokemonSpecies: React.FunctionComponent<{
+const PokemonSpecies: NextPage<{
   name: string;
 }> = ({ name }) => {
   const { data } = useQuery(
@@ -34,12 +36,17 @@ const PokemonSpecies: React.FunctionComponent<{
     <div>
       <Grid>
         {data?.map((f, i) => (
-          <Grid.Col xs={12} md={6} lg={4} key={[f.species, i].join(":")} p={5}>
+          <Grid.Col xs={12} md={6} lg={3} key={[f.species, i].join(":")} p={5}>
             <Link href={`/pokemon/${f.species}`} passHref>
               <Card>
-                <Card.Section>
-                  <Image height={350} src={f.sprite} alt={f.species} />
-                </Card.Section>
+                <Center>
+                  <Image
+                    height={100}
+                    src={f.sprite}
+                    alt={f.species}
+                    width={100}
+                  />
+                </Center>
                 <Title order={3}>{f.species}</Title>
                 <Text>{f.types.map((element) => element.name).join(", ")}</Text>
               </Card>

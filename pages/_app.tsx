@@ -1,7 +1,9 @@
 import { Hydrate, QueryClientProvider } from "react-query";
-import Layout from "./components/Layout";
+
+import Layout from "../src/components/Layout";
 import { queryClient } from "../src/api";
 import { WatchListProvider } from "../context/watchList";
+
 import "../styles/globals.css";
 
 function MyApp({ Component, pageProps }) {

@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 import {
   Grid,
   Select,
@@ -10,11 +12,15 @@ import {
   Center,
   Group,
 } from "@mantine/core";
-import { useState } from "react";
 import Image from "next/image";
-import { Trash, ChevronDown, ChevronUp, Selector } from "tabler-icons-react";
-import { TypesEnum } from "../../src/generated/graphql";
-import { useEffect } from "react";
+import {
+  ListDetails,
+  ChevronDown,
+  ChevronUp,
+  Selector,
+} from "tabler-icons-react";
+import { TypesEnum } from "../generated/graphql";
+import { PokemonInterface } from "../../types/Pokemon";
 
 interface ThProps {
   children: React.ReactNode;
@@ -25,10 +31,22 @@ interface ThProps {
 
 interface RowData {
   species: string;
-  types: string;
 }
 
-export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
+type Props = {
+  data: PokemonInterface[];
+  rowFunction: (species: string) => void;
+  functionHeader: string;
+  funcIcon: JSX.Element;
+};
+
+export const PokemonTable = ({
+  data,
+  rowFunction,
+  functionHeader,
+  funcIcon,
+}: Props) => {
+  const router = useRouter();
   const [activePage, setPage] = useState(1);
   const [selectValue, setSelectValue] = useState("");
   const [searchValue, setSearchValue] = useState("");
@@ -39,15 +57,19 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
   useEffect(() => {
     if (selectValue == null) {
       setSelectValue("");
-    } else {
-      setSelectValue(selectValue);
     }
   }, [selectValue]);
 
   useEffect(() => {
     setFilteredData(filterData(data));
     setPage(1);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [data, searchValue, selectValue]);
+
+  const navigateToDetailPage = (species: string) => {
+    router.push(`/pokemon/${species}`);
+  };
 
   const Th = ({ children, reversed, sorted, onSort }: ThProps) => {
     const Icon = sorted ? (reversed ? ChevronUp : ChevronDown) : Selector;
@@ -74,14 +96,24 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
     setFilteredData(sortData(filteredData, { sortBy: field, reversed }));
   };
 
-  const filterData = (items) => {
+  const filterData = (items: PokemonInterface[]) => {
+    let tempArr = items;
+
     const searchQuery = searchValue.toLowerCase().trim();
     const selectQuery = selectValue.toLowerCase().trim();
-    return items.filter(
-      (pokemon) =>
-        pokemon.species.includes(searchQuery) &&
-        pokemon.types.toLowerCase().includes(selectQuery)
-    );
+
+    tempArr = tempArr.filter((x) => {
+      return x.types.some((ele) => ele.name.toLowerCase().match(selectQuery));
+    });
+
+    tempArr = tempArr.filter((x) => {
+      return (
+        x.types.some((ele) => ele.name.toLowerCase().includes(searchQuery)) ||
+        x.species.toLowerCase().includes(searchQuery)
+      );
+    });
+
+    return tempArr;
   };
 
   const sortData = (
@@ -103,7 +135,7 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
     });
   };
 
-  const paginate = (items, page = 1, perPage = 10) => {
+  const paginate = (items: PokemonInterface[], page = 1, perPage = 10) => {
     const offset = perPage * (page - 1);
     const totalPages = Math.ceil(items.length / perPage);
     const paginatedItems = items.slice(offset, perPage * page);
@@ -127,34 +159,33 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
       >
         Name
       </Th>
-      <Th
-        sorted={sortBy === "types"}
-        reversed={reverseSortDirection}
-        onSort={() => setSorting("types")}
-      >
-        Type
-      </Th>
+      <th>Type</th>
+      <th>More Details</th>
       <th>{functionHeader}</th>
     </tr>
   );
 
   const tableRows = paginate(filteredData, activePage, 10).items?.map(
-    (element, i) => (
-      <tr key={i}>
+    (element: PokemonInterface) => (
+      <tr key={element.species}>
         <td>
           <Image
             src={element.sprite}
             height={50}
             width={50}
-            placeholder="blur"
-            blurDataURL="/master-ball.png"
+            alt={element.species}
           />
         </td>
         <td>{element.species}</td>
-        <td>{element.types}</td>
+        <td>{element.types.map((element) => element.name).join(", ")}</td>
         <td>
-          <Button onClick={() => rowFuntion(element.species)}>
-            <Trash />
+          <Button onClick={() => navigateToDetailPage(element.species)}>
+            <ListDetails />
+          </Button>
+        </td>
+        <td>
+          <Button onClick={() => rowFunction(element.species)}>
+            {funcIcon}
           </Button>
         </td>
       </tr>
@@ -173,7 +204,6 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
             searchable
             clearable
           />
-          ;
         </Grid.Col>
         <Grid.Col span={4}>
           <TextInput
@@ -191,7 +221,7 @@ export const PokemonTable = ({ data, rowFuntion, functionHeader }) => {
             tableRows
           ) : (
             <tr>
-              <td colSpan={4}>
+              <td colSpan={5}>
                 <Text weight={500} align="center">
                   Nothing found
                 </Text>
