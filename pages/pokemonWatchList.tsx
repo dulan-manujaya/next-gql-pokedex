@@ -148,15 +148,6 @@ export default function WatchList() {
     </tr>
   );
 
-  const ths1 = (
-    <tr>
-      <th>Sprite</th>
-      <th>Name</th>
-      <th>Type</th>
-      <th>Delete</th>
-    </tr>
-  );
-
   const rows = paginate(data, activePage, 10).items?.map((element, i) => (
     <tr key={i}>
       <td>
@@ -195,7 +186,7 @@ export default function WatchList() {
           <TextInput
             value={searchValue}
             onChange={(event) => setSearchValue(event.currentTarget.value)}
-            placeholder="Type a species name"
+            placeholder="Search anything"
           />
         </Grid.Col>
       </Grid>

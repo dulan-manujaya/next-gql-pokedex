@@ -103,7 +103,7 @@ export default function Home() {
           <TextInput
             value={searchValue}
             onChange={(event) => setSearchValue(event.currentTarget.value)}
-            placeholder="Type a species name"
+            placeholder="Search anything"
           />
         </Grid.Col>
       </Grid>
