@@ -1,4 +1,4 @@
-This is Pokedex Demo project made using Next.js, GraphQL and Typescript.
+This is Pokedex Demo project made using Next.js, GraphQL and Typescript. (Currently only supports the first 350 pokemon)
 Check it out at [https://next-gql-pokedex.vercel.app/](https://next-gql-pokedex.vercel.app/) 
 
 
